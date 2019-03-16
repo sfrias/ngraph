@@ -7,29 +7,31 @@ Introduction
 Developers working to craft solutions with :abbr:`Artificial Intelligence (AI)`
 face a steep learning curve in taking their concepts from design to production. 
 It can be difficult to create a :abbr:`Deep Learning (DL)` model capable of 
-maintaining a minimal standard of consistency, as it must be continually tweaked, 
-adapted, or rewritten to use and optimize various parts of the stack during its 
-life cycle. For DL models that do reach production-ready status, an entirely new set 
-of problems emerges in how to scale and use larger and larger datasets, data that 
-must be encrypted, data-in-motion, and of course, in how to achieve the optimum 
-compromise between speed and accuracy in performance.  
+maintaining a minimal standard of consistency, as it must be continually 
+tweaked, adapted, or rewritten to use and optimize various parts of the stack 
+during its life cycle. For DL models that do reach production-ready status, an 
+entirely new set of problems emerges in how to scale and use larger and larger 
+datasets, data that must be encrypted, data-in-motion, and of course, in how to 
+achieve the optimum compromise between speed and accuracy in performance.  
 
-Two general approaches to advancing deep learning performance dominate the industry
-today. The first is to design silicon dedicated exclusively to handling compute for 
-certain kinds of :abbr:`Machine Learning (ML)` or `:abbr:DL (Deep Learning)` operations; 
-this approach is essentially the equivalent of designing the network *around* the 
-problem the AI is supposed to solve. For example, many companies are actively developing 
-specialized :abbr:`ASICs (Application Specific Integrated Circuits)` to speed-up 
-training (one kind of ASIC) or to reduce inference latency (another kind of ASIC) in 
-their cloud-based deployments or local data centers. This approach works great for 
-:abbr:`Cloud Service Providers (CSPs)` or others that have considerable budgets to  
-invest in new hardware; however, it creates a significant burden on the developer 
-who now needs to invest in adapting the context of their model for training and then 
-for inference, to figure out at least two new pipeline deployment scenarios, and what 
-tradeoffs to make when switching between the two for high dataflow scenarios.  
+Two general approaches to advancing deep learning performance dominate the 
+industry today. The first is to design silicon dedicated exclusively to handling 
+compute for certain kinds of :abbr:`Machine Learning (ML)` or 
+:abbr:`DL (Deep Learning)` operations; this approach is essentially the equivalent 
+of designing the network *around* the problem the AI is supposed to solve. For 
+example, many companies are actively developing specialized 
+:abbr:`ASICs (Application Specific Integrated Circuits)` to speed-up training 
+(one kind of ASIC) or to reduce inference latency (another kind of ASIC) in 
+their cloud-based deployments or local data centers. This approach works great 
+for :abbr:`Cloud Service Providers (CSPs)` or others that have considerable 
+budgets to  invest in new hardware; however, it creates a significant burden on 
+the developer who now needs to invest in adapting the context of their model for 
+training and then for inference, to figure out at least two new pipeline deployment 
+scenarios, and what tradeoffs to make when switching between the two for high 
+dataflow scenarios.  
 
-The second approach is to enable the network to adapt to the problem the AI is aiming 
-to solve by designing the software stack in a way that can deliver extra 
+The second approach is to enable the network to adapt to the problem the AI is 
+aiming to solve by designing the software stack in a way that can deliver extra 
 performance via software optimization. The nGraph Compiler stack is our solution 
 to this second approach. A network graph-based approach not only provides software 
 acceleration for any upcoming DL ASICs, but also unlocks a massive performance boost 
