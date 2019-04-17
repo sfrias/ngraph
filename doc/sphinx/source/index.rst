@@ -23,15 +23,15 @@ nGraph Compiler stack
 
 
 nGraph is an open-source graph compiler for :abbr:`Artificial Neural Networks (ANNs)`. 
-The nGraph Compiler stack provides an inherently efficient graph-based compilation 
-infrastructure designed to be compatible with many upcoming 
-:abbr:`Application-Specific Integrated Circuits (ASICs)`, like the Intel® Nervana™ 
-Neural Network Processor (Intel® Nervana™ NNP), while also unlocking a massive 
-performance boost on any existing hardware targets for your neural network: both 
-GPUs and CPUs. Using its flexible infrastructure, you will find it becomes much 
-easier to create Deep Learning (DL) models that can adhere to the "write once, 
-run anywhere" mantra that enables your AI solutions to easily go from concept to 
-production to scale.
+The nGraph Compiler stack provides an inherently efficient graph-based 
+compilation infrastructure designed to be compatible with many upcoming 
+:abbr:`Application-Specific Integrated Circuits (ASICs)`, like the 
+Intel® Nervana™ Neural Network Processor (Intel® Nervana™ NNP), while also 
+unlocking a massive performance boost on any existing hardware targets for 
+your neural network: both GPUs and CPUs. Using its flexible infrastructure, 
+you will find it becomes much easier to create :abbr:`Deep Learning (DL)` 
+models that can adhere to the "write once, run anywhere" mantra that enables 
+an AI solution to easily go from **concept** to **production** to **scale**.  
 
 Frameworks using nGraph to execute workloads have shown `up to 45X`_ performance 
 boost compared to native implementations. For a high-level overview, see the 
@@ -39,12 +39,9 @@ boost compared to native implementations. For a high-level overview, see the
 
 .. toctree::
    :maxdepth: 1
-   :caption: Connecting Frameworks
-   
-   frameworks/index.rst
-   frameworks/validated/list.rst
-   frameworks/generic-configs.rst
+   :caption: Guides
 
+   guides/index.rst
 
 .. toctree::
    :maxdepth: 1
@@ -88,12 +85,6 @@ boost compared to native implementations. For a high-level overview, see the
    diagnostics/visualize.rst
    diagnostics/debug.rst 
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Tutorials
-
-   nGraph.ai Tutorials <https://www.ngraph.ai/tutorials>   
-
 
 .. toctree::
    :maxdepth: 1
@@ -102,7 +93,6 @@ boost compared to native implementations. For a high-level overview, see the
    project/introduction.rst
    project/release-notes.rst
    project/contribution-guide.rst
-   project/governance.rst
    project/doc-contributor-README.rst
    project/index.rst 
    glossary.rst

@@ -1,25 +1,17 @@
 .. frameworks/index.rst: 
 
-Current framework integrations  
-==============================
+Framework Bridges  
+=================
 
 .. toctree::
    :maxdepth: 1
    
-   tensorflow_integ.rst
-   mxnet_integ.rst
-   onnx_integ.rst
-   paddle_integ.rst
    validated/testing-latency.rst
+   generic-configs.rst
 
 
-A framework is "supported" when there is a framework :term:`bridge` that can be 
-cloned from one of our GitHub repos and built to connect to nGraph device 
-backends while maintaining the framework's programmatic or user interface. Bridges 
-currently exist for the TensorFlow\* and MXNet\* frameworks. 
-
-ONNX is not a framework; however, it can be used with nGraph's :doc:`../python_api/index` 
-to import and execute ONNX models.   
+A :term:`bridge` is what connects a framework to the nGraph IR; think of nGraph 
+as a :term:`backend` to a framework.  
 
 .. figure:: ../graphics/whole-stack.png
     :width: 733px
