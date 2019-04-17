@@ -163,6 +163,7 @@ size_t ngraph::hash_combine(const std::vector<size_t>& list)
 
 void* ngraph::aligned_alloc(size_t alignment, size_t size)
 {
+    return new uint64_t[round_up(size, sizeof(uint64_t)) / sizeof(uint64_t)];
 #ifdef __APPLE__
     return new uint64_t[round_up(size, sizeof(uint64_t)) / sizeof(uint64_t)];
 #elif defined _WIN32
@@ -174,6 +175,8 @@ void* ngraph::aligned_alloc(size_t alignment, size_t size)
 
 void ngraph::aligned_free(void* p)
 {
+    delete[] reinterpret_cast<uint64_t*>(p);
+    free(p);
 #ifdef __APPLE__
     delete[] reinterpret_cast<uint64_t*>(p);
 #else
