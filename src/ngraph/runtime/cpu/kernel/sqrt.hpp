@@ -40,7 +40,7 @@ namespace ngraph
                         static_cast<ElementType*>(output), out_dims);
                     Eigen::TensorMap<Eigen::Tensor<ElementType, 1, Eigen::RowMajor>> in(
                         static_cast<ElementType*>(input), in_dims);
-
+                    std::cout << "\n\n cpu sqrt kernel ...\n\n";
                     out.device(ngraph::runtime::cpu::executor::GetCPUExecutor().get_device(arena)) =
                         in.sqrt();
                 }
