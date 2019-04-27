@@ -166,7 +166,7 @@ if (NGRAPH_CPU_ENABLE)
     endif()
 
     if (NGRAPH_DISABLE_FAST_MATH)
-        target_compile_definitions(cpu_backend PRIVATE EIGEN_FAST_MATH=0)
+        target_compile_definitions(cpu_backend PRIVATE EIGEN_FAST_MATH=1)
     endif()
 
     if(OPENMP_FOUND)
