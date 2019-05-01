@@ -29,6 +29,7 @@
 #include "ngraph/file_util.hpp"
 #include "ngraph/graph_util.hpp"
 #include "ngraph/pass/liveness.hpp"
+#include "ngraph/pass/liveness.hpp"
 #include "ngraph/pass/manager.hpp"
 #include "ngraph/pass/memory_layout.hpp"
 #include "ngraph/pass/visualize_tree.hpp"
@@ -322,9 +323,40 @@ OPTIONS
                 auto model_file_name = ngraph::file_util::get_file_name(model) + std::string(".") +
                                        (dot_file ? "dot" : pass::VisualizeTree::get_file_ext());
 
-                pass::Manager pass_manager;
-                pass_manager.register_pass<pass::VisualizeTree>(model_file_name, nullptr, true);
-                pass_manager.run_passes(f);
+                {
+                    pass::Manager pass_manager;
+                    pass_manager.register_pass<pass::Liveness>();
+                    pass_manager.run_passes(f);
+
+                    auto ordered_ops = f->get_ordered_ops();
+                    unordered_map<string, size_t> lifetime;
+                    size_t op_index = 0;
+                    for (const shared_ptr<Node>& n : ordered_ops)
+                    {
+                        for (const descriptor::Tensor* tensor : n->liveness_new_list)
+                        {
+                            NGRAPH_INFO << "new  " << tensor->get_name();
+                            lifetime[tensor->get_name()] = op_index;
+                        }
+                        for (const descriptor::Tensor* tensor : n->liveness_free_list)
+                        {
+                            NGRAPH_INFO << "free " << tensor->get_name();
+                            size_t start = lifetime[tensor->get_name()];
+                            NGRAPH_INFO << start << ", " << op_index;
+                            lifetime[tensor->get_name()] = op_index - start;
+                        }
+                        op_index++;
+                    }
+                    for (const pair<string, size_t>& p : lifetime)
+                    {
+                        NGRAPH_INFO << p.second << " -> " << p.first;
+                    }
+                }
+                {
+                    pass::Manager pass_manager;
+                    pass_manager.register_pass<pass::VisualizeTree>(model_file_name, nullptr, true);
+                    pass_manager.run_passes(f);
+                }
             }
 
             if (statistics)
