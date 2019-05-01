@@ -340,6 +340,9 @@ if (DEFINED NGRAPH_TUNE_ARCH)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mtune=${NGRAPH_TUNE_ARCH}")
 endif()
 
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --ffast-math -fuse-ld=gold")
+
 if (NGRAPH_USE_GOLD)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fuse-ld=gold")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
