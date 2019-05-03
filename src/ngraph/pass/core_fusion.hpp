@@ -42,6 +42,7 @@ public:
             construct_optimized_strided_conv();
             construct_reshape_broadcast();
             construct_reshape_softmax_reshape();
+            construct_broadcast_reshape_conv();
         }
         // Patterns under FOP_FUSIONS create ops (FusedOps) that might not
         // be all supported by certain backends. In such a case, backends
@@ -61,6 +62,7 @@ public:
     void construct_optimized_strided_conv();
     void construct_reshape_broadcast();
     void construct_reshape_softmax_reshape();
+    void construct_broadcast_reshape_conv();
     void construct_conv_bias();
     void construct_conv_bias_add();
 };
