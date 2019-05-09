@@ -19,6 +19,13 @@
 using namespace std;
 using namespace ngraph;
 
+BasicNodeType<op::Add> op::Add::node_type("Add");
+
+op::Add::Add()
+    : util::BinaryElementwiseArithmetic()
+{
+}
+
 op::Add::Add(const shared_ptr<Node>& arg0, const shared_ptr<Node>& arg1)
     : BinaryElementwiseArithmetic("Add", arg0, arg1)
 {

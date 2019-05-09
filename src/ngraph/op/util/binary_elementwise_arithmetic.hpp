@@ -46,6 +46,14 @@ namespace ngraph
             class BinaryElementwiseArithmetic : public Op
             {
             public:
+                BinaryElementwiseArithmetic()
+                    : Op()
+                {
+                }
+
+                BinaryElementwiseArithmetic(const std::shared_ptr<Node>& arg0,
+                                            const std::shared_ptr<Node>& arg1);
+
                 /// \brief Constructs a binary elementwise arithmetic operation.
                 ///
                 /// \param arg0 Node that produces the first input tensor.

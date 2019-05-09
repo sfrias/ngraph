@@ -29,6 +29,11 @@ namespace ngraph
         class Abs : public util::UnaryElementwiseArithmetic
         {
         public:
+            static BasicNodeType<op::Abs> node_type;
+            NodeType& get_node_type() const override { return node_type; }
+            /// \brief Constructs an absolute value operation.
+            Abs();
+
             /// \brief Constructs an absolute value operation.
             ///
             /// \param arg Node that produces the input tensor.<br>
@@ -37,7 +42,6 @@ namespace ngraph
             /// Output `[d1, ...]`
             ///
             Abs(const std::shared_ptr<Node>& arg);
-            Abs(const op::Abs& other, const NodeVector& new_args);
 
             virtual std::shared_ptr<Node>
                 copy_with_new_args(const NodeVector& new_args) const override;

@@ -29,6 +29,11 @@ namespace ngraph
         class Add : public util::BinaryElementwiseArithmetic
         {
         public:
+            static BasicNodeType<op::Add> node_type;
+            NodeType& get_node_type() const override { return node_type; }
+            /// \brief Constructs an unitialized addition operation
+            Add();
+
             /// \brief Constructs an addition operation.
             ///
             /// \param arg0 Node that produces the first input tensor.<br>

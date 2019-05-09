@@ -30,6 +30,16 @@ namespace ngraph
             {
             public:
                 /// \brief Constructs an arithmetic reduction operation.
+                ArithmeticReduction();
+
+                /// \brief Constructs an arithmetic reduction operation.
+                ///
+                /// \param arg Node that produces the first input tensor.
+                /// \param reduction_axes The axis positions (0-based) to be eliminated.
+                ArithmeticReduction(const std::shared_ptr<Node>& arg,
+                                    const AxisSet& reduction_axes);
+
+                /// \brief Constructs an arithmetic reduction operation.
                 ///
                 /// \param arg Node that produces the first input tensor.
                 /// \param reduction_axes The axis positions (0-based) to be eliminated.
@@ -41,6 +51,9 @@ namespace ngraph
 
                 /// \return The axis positions (0-based) to be eliminated through reduction.
                 const AxisSet& get_reduction_axes() const { return m_reduction_axes; }
+                /// \brief Change the reduction axes
+                void set_reduction_axes(const AxisSet& reduction_axes);
+
             protected:
                 AxisSet m_reduction_axes;
             };

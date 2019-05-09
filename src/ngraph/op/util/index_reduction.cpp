@@ -21,6 +21,25 @@
 using namespace std;
 using namespace ngraph;
 
+Attribute<decltype(&op::util::IndexReduction::m_axis)> op::util::IndexReduction::axis_attr{
+    "axis", &op::util::IndexReduction::m_axis};
+
+op::util::IndexReduction::IndexReduction()
+    : Op()
+{
+    constructor_validate_and_infer_types();
+}
+
+op::util::IndexReduction::IndexReduction(const std::shared_ptr<Node>& arg,
+                                         size_t axis,
+                                         const element::Type& index_element_type)
+    : Op(check_single_output_args({arg}))
+    , m_axis(axis)
+    , m_index_element_type(index_element_type)
+{
+    constructor_validate_and_infer_types();
+}
+
 op::util::IndexReduction::IndexReduction(const std::string& node_type,
                                          const std::shared_ptr<Node>& arg,
                                          size_t axis,
@@ -30,6 +49,11 @@ op::util::IndexReduction::IndexReduction(const std::string& node_type,
     , m_index_element_type(index_element_type)
 {
     constructor_validate_and_infer_types();
+}
+
+void op::util::IndexReduction::set_index_element_type(element::Type& index_element_type)
+{
+    m_index_element_type = index_element_type;
 }
 
 void op::util::IndexReduction::validate_and_infer_types()

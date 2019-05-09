@@ -19,12 +19,29 @@
 using namespace std;
 using namespace ngraph;
 
+op::util::LogicalReduction::LogicalReduction()
+    : Op()
+{
+}
+
+op::util::LogicalReduction::LogicalReduction(const std::shared_ptr<Node>& arg,
+                                             const AxisSet& reduction_axes)
+    : Op(check_single_output_args({arg}))
+    , m_reduction_axes(reduction_axes)
+{
+}
+
 op::util::LogicalReduction::LogicalReduction(const std::string& node_type,
                                              const std::shared_ptr<Node>& arg,
                                              const AxisSet& reduction_axes)
     : Op(node_type, check_single_output_args({arg}))
     , m_reduction_axes(reduction_axes)
 {
+}
+
+void op::util::LogicalReduction::set_reduction_axes(const AxisSet& reduction_axes)
+{
+    m_reduction_axes = reduction_axes;
 }
 
 void op::util::LogicalReduction::validate_and_infer_types()
