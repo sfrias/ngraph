@@ -33,10 +33,14 @@ using namespace ngraph;
 
 atomic<size_t> Node::m_next_instance_id(0);
 
-Node::Node(const std::string& node_type, const NodeVector& arguments, size_t output_size)
-    : m_node_type(node_type)
-    , m_instance_id(m_next_instance_id.fetch_add(1))
-    , m_unique_name(description() + "_" + to_string(m_instance_id))
+Node::Node(const NodeVector& arguments, size_t output_size)
+    : Node()
+{
+    set_arguments(arguments);
+    set_output_size(output_size);
+}
+
+void Node::set_arguments(const NodeVector& arguments)
 {
     // Add this node as a user of each argument.
     size_t i = 0;
@@ -47,7 +51,12 @@ Node::Node(const std::string& node_type, const NodeVector& arguments, size_t out
             m_inputs.emplace_back(this, i++, output);
         }
     }
-    set_output_size(output_size);
+}
+
+Node::Node(const std::string& type_name, const NodeVector& arguments, size_t output_size)
+    : Node(arguments, output_size)
+{
+    m_description = type_name;
 }
 
 // While we are still doing validation and type inference in the constructor, this is true
@@ -70,13 +79,17 @@ void Node::delayed_validate_and_infer_types()
 }
 #undef IN_TRANSITION
 
+void Node::notify_definition_changed()
+{
+}
+
 void Node::set_output_size(size_t n)
 {
     NGRAPH_CHECK(n >= m_outputs.size(), "shrinking ", m_outputs.size(), " to ", n);
     for (size_t i = m_outputs.size(); i < n; ++i)
     {
-        auto tensor_descriptor = make_shared<descriptor::Tensor>(
-            element::dynamic, PartialShape::dynamic(), get_name() + "_" + to_string(i));
+        auto tensor_descriptor =
+            make_shared<descriptor::Tensor>(element::dynamic, PartialShape::dynamic(), this, i);
         m_outputs.emplace_back(this, i, tensor_descriptor);
     }
 }
@@ -125,22 +138,21 @@ bool Node::is_constant() const
     return false;
 }
 
-const std::string& Node::description() const
-{
-    return m_node_type;
-}
-
 const std::string& Node::get_friendly_name() const
 {
     if (m_friendly_name.empty())
     {
-        return m_unique_name;
+        return get_name();
     }
     return m_friendly_name;
 }
 
 const std::string& Node::get_name() const
 {
+    if (m_unique_name.empty())
+    {
+        const_cast<Node*>(this)->m_unique_name = description() + "_" + to_string(m_instance_id);
+    }
     return m_unique_name;
 }
 
