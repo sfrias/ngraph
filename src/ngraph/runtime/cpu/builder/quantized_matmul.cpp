@@ -79,6 +79,8 @@ namespace ngraph
                                 static_cast<float*>(ctx->buffer_data[arg2_buffer_index]) +
                                     scales_size);
                             ip_attr.set_output_scales(0, dyn_scales);
+                            std::cout<<"SCALE " <<dyn_scales[0] <<std::endl;
+                            std::cout<<"IN HERE "<<std::endl;
                             mkldnn_emitter->build_inner_product_forward<false>(
                                 ctx->mkldnn_primitives,
                                 ip_desc,

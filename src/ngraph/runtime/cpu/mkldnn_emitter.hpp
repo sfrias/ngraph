@@ -1272,6 +1272,7 @@ namespace ngraph
                     }
                     else
                     {
+                        std::cout<<"PRIM " <<prim<<std::endl;
                         prim = new mkldnn::inner_product_forward({desc, attr, engine},
                                                                  *mkldnn_primitives[input_idx],
                                                                  *mkldnn_primitives[weights_idx],

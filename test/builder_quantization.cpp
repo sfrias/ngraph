@@ -1292,7 +1292,7 @@ TEST(builder, dynamic_scaled_QD)
     f_nrequantize_handle->call_with_validate({f_nrequantize_r}, {a, b, d, e, e_a, g, h, i});
     EXPECT_EQ((vector<int32_t>{26, 34, 45, 71, -1, 106, 66, 38, 118, 63, -3, 124}),
               read_vector<int32_t>(f_nrequantize_r));
-
+#if 0 
     // QuantizedDot with relu
     auto f_nrequantize_relu = make_function(false, true);
     auto f_nrequantize_relu_r = backend->create_tensor(element::i32, shape_r);
@@ -1317,6 +1317,7 @@ TEST(builder, dynamic_scaled_QD)
     f_requantize_relu_handle->call_with_validate({f_requantize_relu_r}, {a, b, d, e, e_a, g, h, i});
     EXPECT_EQ((vector<uint8_t>{173, 230, 255, 255, 0, 255, 255, 255, 255, 255, 0, 255}),
               read_vector<uint8_t>(f_requantize_relu_r));
+#endif
 }
 
 // QuantizedDotBias
