@@ -44,8 +44,11 @@ namespace ngraph
         using value_type = decltype(value_helper(v_helper));
         using class_type = decltype(class_helper(v_helper));
 
-        template<typename T>
-        value_type get_value(T ths) { return ths->*m_ptr; }
+        template <typename T>
+        value_type get_value(T ths)
+        {
+            return ths->*m_ptr;
+        }
         std::string m_name;
         A m_ptr;
     };

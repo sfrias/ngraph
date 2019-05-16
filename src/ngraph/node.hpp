@@ -96,7 +96,7 @@ namespace ngraph
         static NodeType* intern(const std::string& name);
     };
 
-    template <typename N, typename B=NodeType>
+    template <typename N, typename B = NodeType>
     class BasicNodeType : public B
     {
     public:
