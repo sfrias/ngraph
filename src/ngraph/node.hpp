@@ -97,12 +97,10 @@ namespace ngraph
         /// \brief Construct an unitialized Node
         Node() {}
         /// Transitional constructor for Node subclasses that do not have metaclasses. A generic metaclass is created if needed.
-        /// \param node_type_name The name of the node name; should match the class name.
+        /// \param type_name The name of the node name; should match the class name.
         /// \param arguments The 0th output of node i will connect to input i
         /// \param output_size Number of outputs for this node
-        Node(const std::string& node_type_name,
-             const NodeVector& arguments,
-             size_t output_size = 1);
+        Node(const std::string& type_name, const NodeVector& arguments, size_t output_size = 1);
 
         /// Constructor for Node subclasses that have metaclasses.
         /// \param arguments The 0th output of node i will connect to input i
@@ -160,7 +158,7 @@ namespace ngraph
         virtual const std::string& description() const { return m_description; }
         /// \brief Get the unique name of the node.
         /// \returns A const reference to the node's unique name.
-        virtual const std::string& get_name() const;
+        const std::string& get_name() const;
 
         /// \brief Sets a friendly name for a node. This does not overwrite the unique name
         ///        of the node and is retrieved via get_friendly_name(). Used mainly for debugging.
@@ -392,10 +390,10 @@ namespace ngraph
     private:
         std::set<std::shared_ptr<Node>> m_control_dependencies;
         std::string m_description;
-        size_t m_instance_id{s_next_instance_id.fetch_add(1)};
+        size_t m_instance_id{m_next_instance_id.fetch_add(1)};
         std::string m_friendly_name;
         std::string m_unique_name;
-        static std::atomic<size_t> s_next_instance_id;
+        static std::atomic<size_t> m_next_instance_id;
         std::unordered_set<std::string> m_provenance_tags;
         std::deque<descriptor::Input> m_inputs;
         std::deque<descriptor::Output> m_outputs;

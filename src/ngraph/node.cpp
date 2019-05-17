@@ -31,7 +31,7 @@
 using namespace std;
 using namespace ngraph;
 
-atomic<size_t> Node::s_next_instance_id(0);
+atomic<size_t> Node::m_next_instance_id(0);
 
 Node::Node(const NodeVector& arguments, size_t output_size)
     : Node()
@@ -89,10 +89,7 @@ void Node::set_output_size(size_t n)
     for (size_t i = m_outputs.size(); i < n; ++i)
     {
         auto tensor_descriptor =
-            make_shared<descriptor::Tensor>(element::dynamic,
-                                            PartialShape::dynamic(),
-                                            this,
-                                            i /* get_name() + "_" + to_string(i) */);
+            make_shared<descriptor::Tensor>(element::dynamic, PartialShape::dynamic(), this, i);
         m_outputs.emplace_back(this, i, tensor_descriptor);
     }
 }
