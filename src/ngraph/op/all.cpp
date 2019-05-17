@@ -19,7 +19,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::All> op::All::node_type("All");
+const string op::All::type_name("All");
 
 op::All::All()
 {

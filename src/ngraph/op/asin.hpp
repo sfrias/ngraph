@@ -29,8 +29,8 @@ namespace ngraph
         class Asin : public util::UnaryElementwiseArithmetic
         {
         public:
-            static BasicNodeType<op::Asin> node_type;
-            NodeType& get_node_type() const override { return node_type; }
+            static const std::string type_name;
+            const std::string& description() const override { return type_name; }
             /// \brief Constructs an arcsin operation.
             Asin();
             /// \brief Constructs an arcsin operation.

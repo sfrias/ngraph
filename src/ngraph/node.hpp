@@ -74,43 +74,6 @@ namespace ngraph
     /// Alias useful for cloning
     using NodeMap = std::unordered_map<ngraph::Node*, std::shared_ptr<ngraph::Node>>;
 
-    /// A metaclass for nodes.
-    class NodeType
-    {
-        friend class Node;
-
-    protected:
-        virtual ~NodeType() {}
-    public:
-        /// Get the name of this type
-        virtual const std::string& get_name() = 0;
-
-        /// Create an unintialized node
-        virtual Node* create() = 0;
-
-        /// Get the NodeType for the specified name
-        static NodeType* at(const std::string& name);
-
-    protected:
-        static NodeType* insert(NodeType* node_type);
-        static NodeType* intern(const std::string& name);
-    };
-
-    template <typename N, typename B = NodeType>
-    class BasicNodeType : public B
-    {
-    public:
-        BasicNodeType(const std::string& name)
-            : m_name(name)
-        {
-            NodeType::insert(this);
-        }
-        virtual const std::string& get_name() { return m_name; }
-        virtual Node* create() { return new N(); }
-    private:
-        std::string m_name;
-    };
-
     /// Nodes are the backbone of the graph of Value dataflow. Every node has
     /// zero or more nodes as arguments and one value, which is either a tensor
     /// or a (possibly empty) tuple of values.
@@ -210,7 +173,7 @@ namespace ngraph
         /// \brief Get the string name for the type of the node, such as `Add` or `Multiply`.
         ///        The class name, must not contain spaces as it is used for codegen.
         /// \returns A const reference to the node's type name
-        const std::string& description() const { return get_node_type().get_name(); }
+        virtual const std::string& description() const { return m_description; }
         /// \brief Get the unique name of the node.
         /// \returns A const reference to the node's unique name.
         virtual const std::string& get_name() const;
@@ -226,15 +189,12 @@ namespace ngraph
         /// \returns A const reference to the node's friendly name.
         const std::string& get_friendly_name() const;
 
-        /// Returns the metaclass of the node.
-        /// Transition definition. This will be pure virtual when all metaclasses have been defined.
-        virtual NodeType& get_node_type() const { return *m_node_type; }
         /// Return true if this has the same implementing class as node. This
         /// will be used by the pattern matcher when comparing a pattern
         /// graph against the graph.
         bool is_same_op_type(const std::shared_ptr<Node>& node) const
         {
-            return &get_node_type() == &node->get_node_type();
+            return description() == node->description();
         }
 
         /// \brief Marks an input as being relevant or irrelevant to the output shapes of this
@@ -447,7 +407,7 @@ namespace ngraph
 
     private:
         std::set<std::shared_ptr<Node>> m_control_dependencies;
-        NodeType* m_node_type{nullptr}; // Transitional
+        std::string m_description;
         size_t m_instance_id{s_next_instance_id.fetch_add(1)};
         std::string m_friendly_name;
         std::string m_unique_name;

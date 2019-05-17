@@ -19,7 +19,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::And> op::And::node_type("And");
+const string op::And::type_name("And");
 
 op::And::And()
 {

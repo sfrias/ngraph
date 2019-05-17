@@ -19,7 +19,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::Any> op::Any::node_type("Any");
+const string op::Any::type_name("Any");
 
 op::Any::Any()
 {

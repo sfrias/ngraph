@@ -29,8 +29,8 @@ namespace ngraph
         class Any : public util::LogicalReduction
         {
         public:
-            static BasicNodeType<op::Any> node_type;
-            NodeType& get_node_type() const override { return node_type; }
+            static const std::string type_name;
+            const std::string& description() const override { return type_name; }
             /// \brief Constructs an "any" reduction operation.
             Any();
             /// \brief Constructs an "any" reduction operation.

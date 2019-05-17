@@ -19,7 +19,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::ArgMax> op::ArgMax::node_type("ArgMax");
+const string op::ArgMax::type_name("ArgMax");
 
 op::ArgMax::ArgMax()
 {

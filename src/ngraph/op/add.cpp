@@ -19,7 +19,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::Add> op::Add::node_type("Add");
+const string op::Add::type_name("Add");
 
 op::Add::Add()
 {

@@ -32,7 +32,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::Acos> op::Acos::node_type("Acos");
+const string op::Acos::type_name("Acos");
 
 op::Acos::Acos()
 {

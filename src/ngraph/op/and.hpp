@@ -29,8 +29,8 @@ namespace ngraph
         class And : public util::BinaryElementwiseLogical
         {
         public:
-            static BasicNodeType<op::And> node_type;
-            NodeType& get_node_type() const override { return node_type; }
+            static const std::string type_name;
+            const std::string& description() const override { return type_name; }
             /// \brief Constructs a logical-and operation.
             And();
 

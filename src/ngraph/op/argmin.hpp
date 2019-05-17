@@ -28,8 +28,8 @@ namespace ngraph
         class ArgMin : public op::util::IndexReduction
         {
         public:
-            static BasicNodeType<op::ArgMin> node_type;
-            NodeType& get_node_type() const override { return node_type; }
+            static const std::string type_name;
+            const std::string& description() const override { return type_name; }
             /// \brief Constructs a ArgMin operation.
             ArgMin();
 

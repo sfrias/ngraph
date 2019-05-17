@@ -21,7 +21,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::Abs> op::Abs::node_type("Abs");
+const string op::Abs::type_name("Abs");
 
 op::Abs::Abs()
 {

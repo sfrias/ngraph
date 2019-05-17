@@ -30,7 +30,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::Atan> op::Atan::node_type("Atan");
+const string op::Atan::type_name("Atan");
 
 op::Atan::Atan()
 {

@@ -31,7 +31,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::Asin> op::Asin::node_type("Asin");
+const string op::Asin::type_name("Asin");
 
 op::Asin::Asin()
 {

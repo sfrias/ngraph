@@ -21,7 +21,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::AvgPool> op::AvgPool::node_type("AvgPool");
+const string op::AvgPool::type_name("AvgPool");
 
 op::AvgPool::AvgPool()
 {
@@ -180,7 +180,7 @@ shared_ptr<Node> op::AvgPool::copy_with_new_args(const NodeVector& new_args) con
                                 m_include_padding_in_avg_computation);
 }
 
-BasicNodeType<op::AvgPoolBackprop> op::AvgPoolBackprop::node_type("AvgPoolBackprop");
+const string op::AvgPoolBackprop::type_name("AvgPoolBackprop");
 
 op::AvgPoolBackprop::AvgPoolBackprop()
 {

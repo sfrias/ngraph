@@ -15,13 +15,11 @@
 //*****************************************************************************
 
 #include <memory>
-#include <mutex>
 #include <sstream>
 #include <typeindex>
 #include <typeinfo>
 
 #include "ngraph/autodiff/adjoints.hpp"
-#include "ngraph/check.hpp"
 #include "ngraph/descriptor/input.hpp"
 #include "ngraph/descriptor/layout/tensor_layout.hpp"
 #include "ngraph/graph_util.hpp"
@@ -32,74 +30,6 @@
 
 using namespace std;
 using namespace ngraph;
-
-using NodeTypeMap = map<const string, NodeType*>;
-
-static NodeTypeMap* s_node_type_map = nullptr;
-
-static mutex node_type_map_mutex;
-
-static NodeTypeMap& get_node_type_map()
-{
-    if (nullptr == s_node_type_map)
-    {
-        s_node_type_map = new NodeTypeMap();
-    }
-    return *s_node_type_map;
-}
-
-NodeType* NodeType::at(const std::string& name)
-{
-    lock_guard<mutex> lock(node_type_map_mutex);
-    return get_node_type_map().at(name);
-}
-
-// Transition helper
-class UnknownNodeType : public NodeType
-{
-public:
-    UnknownNodeType(const std::string& name)
-        : m_name(name)
-    {
-    }
-    virtual const std::string& get_name() { return m_name; }
-    virtual Node* create();
-
-private:
-    std::string m_name;
-};
-
-Node* UnknownNodeType::create()
-{
-    NGRAPH_CHECK(false,
-                 "Cannot create an instance of ",
-                 get_name(),
-                 " because it has an unspecialized meta-class");
-}
-
-NodeType* NodeType::intern(const std::string& name)
-{
-    lock_guard<mutex> lock(node_type_map_mutex);
-    auto node_type_map = get_node_type_map();
-    auto it = node_type_map.find(name);
-    if (it == node_type_map.end())
-    {
-        NodeType* node_type = new UnknownNodeType(name);
-        get_node_type_map()[node_type->get_name()] = node_type;
-        return node_type;
-    }
-    else
-    {
-        return it->second;
-    }
-}
-
-NodeType* NodeType::insert(NodeType* node_type)
-{
-    lock_guard<mutex> lock(node_type_map_mutex);
-    get_node_type_map()[node_type->get_name()] = node_type;
-    return node_type;
-}
 
 atomic<size_t> Node::s_next_instance_id(0);
 
@@ -123,10 +53,10 @@ void Node::set_arguments(const NodeVector& arguments)
     }
 }
 
-Node::Node(const std::string& node_type_name, const NodeVector& arguments, size_t output_size)
+Node::Node(const std::string& type_name, const NodeVector& arguments, size_t output_size)
     : Node(arguments, output_size)
 {
-    m_node_type = NodeType::intern(node_type_name);
+    m_description = type_name;
 }
 
 // While we are still doing validation and type inference in the constructor, this is true

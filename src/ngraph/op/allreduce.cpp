@@ -19,7 +19,7 @@
 using namespace std;
 using namespace ngraph;
 
-BasicNodeType<op::AllReduce> op::AllReduce::node_type("AllReduce");
+const string op::AllReduce::type_name("AllReduce");
 
 op::AllReduce::AllReduce()
 {

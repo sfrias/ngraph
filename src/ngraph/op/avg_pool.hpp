@@ -29,8 +29,8 @@ namespace ngraph
         class AvgPool : public Op
         {
         public:
-            static BasicNodeType<op::AvgPool> node_type;
-            NodeType& get_node_type() const override { return node_type; }
+            static const std::string type_name;
+            const std::string& description() const override { return type_name; }
             /// \brief Constructs a batched average pooling operation.
             AvgPool();
             /// \brief Constructs a batched average pooling operation.
@@ -119,8 +119,8 @@ namespace ngraph
         class AvgPoolBackprop : public Op
         {
         public:
-            static BasicNodeType<op::AvgPoolBackprop> node_type;
-            NodeType& get_node_type() const override { return node_type; }
+            static const std::string type_name;
+            const std::string& description() const override { return type_name; }
             AvgPoolBackprop();
             AvgPoolBackprop(const Shape& forward_arg_shape,
                             const std::shared_ptr<Node>& delta,
