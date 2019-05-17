@@ -19,8 +19,14 @@
 using namespace std;
 using namespace ngraph;
 
+BasicNodeType<op::AllReduce> op::AllReduce::node_type("AllReduce");
+
+op::AllReduce::AllReduce()
+{
+}
+
 op::AllReduce::AllReduce(const shared_ptr<Node>& arg)
-    : Op("AllReduce", check_single_output_args({arg}))
+    : Op(check_single_output_args({arg}))
 {
     constructor_validate_and_infer_types();
 }

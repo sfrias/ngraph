@@ -50,7 +50,11 @@ namespace ngraph
                 void validate_and_infer_types() override;
 
                 /// \return The axis positions (0-based) to be eliminated through reduction.
-                const AxisSet& get_reduction_axes() const { return m_reduction_axes; }
+                const AxisSet& get_reduction_axes() const
+                {
+                    return get_attribute_value(m_reduction_axes);
+                }
+
                 /// \brief Change the reduction axes
                 void set_reduction_axes(const AxisSet& reduction_axes);
 

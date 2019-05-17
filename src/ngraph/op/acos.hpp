@@ -29,6 +29,10 @@ namespace ngraph
         class Acos : public util::UnaryElementwiseArithmetic
         {
         public:
+            static BasicNodeType<op::Acos> node_type;
+            NodeType& get_node_type() const override { return node_type; }
+            /// \brief Constructs an arccos operation.
+            Acos();
             /// \brief Constructs an arccos operation.
             ///
             /// \param arg Node that produces the input tensor.<br>

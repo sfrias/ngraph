@@ -19,8 +19,14 @@
 using namespace std;
 using namespace ngraph;
 
+BasicNodeType<op::All> op::All::node_type("All");
+
+op::All::All()
+{
+}
+
 op::All::All(const shared_ptr<Node>& arg, const AxisSet& reduction_axes)
-    : LogicalReduction("All", arg, reduction_axes)
+    : LogicalReduction(arg, reduction_axes)
 {
     constructor_validate_and_infer_types();
 }

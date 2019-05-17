@@ -149,6 +149,10 @@ void Node::delayed_validate_and_infer_types()
 }
 #undef IN_TRANSITION
 
+void Node::notify_definition_changed()
+{
+}
+
 void Node::set_output_size(size_t n)
 {
     NGRAPH_CHECK(n >= m_outputs.size(), "shrinking ", m_outputs.size(), " to ", n);

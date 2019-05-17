@@ -19,7 +19,6 @@
 using namespace ngraph;
 
 op::util::UnaryElementwiseArithmetic::UnaryElementwiseArithmetic()
-    : Op()
 {
 }
 

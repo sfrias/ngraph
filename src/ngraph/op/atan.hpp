@@ -29,6 +29,11 @@ namespace ngraph
         class Atan : public util::UnaryElementwiseArithmetic
         {
         public:
+            static BasicNodeType<op::Atan> node_type;
+            NodeType& get_node_type() const override { return node_type; }
+            /// \brief Constructs an arctan operation.
+            Atan();
+
             /// \brief Constructs an arctan operation.
             ///
             /// \param arg Node that produces the input tensor.<br>

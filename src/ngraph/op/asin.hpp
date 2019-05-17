@@ -29,6 +29,10 @@ namespace ngraph
         class Asin : public util::UnaryElementwiseArithmetic
         {
         public:
+            static BasicNodeType<op::Asin> node_type;
+            NodeType& get_node_type() const override { return node_type; }
+            /// \brief Constructs an arcsin operation.
+            Asin();
             /// \brief Constructs an arcsin operation.
             ///
             /// \param arg Node that produces the input tensor.<br>

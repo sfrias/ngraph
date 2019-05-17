@@ -24,7 +24,6 @@ using namespace ngraph;
 BasicNodeType<op::Abs> op::Abs::node_type("Abs");
 
 op::Abs::Abs()
-    : UnaryElementwiseArithmetic()
 {
 }
 

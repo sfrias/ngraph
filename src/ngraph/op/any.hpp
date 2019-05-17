@@ -29,6 +29,10 @@ namespace ngraph
         class Any : public util::LogicalReduction
         {
         public:
+            static BasicNodeType<op::Any> node_type;
+            NodeType& get_node_type() const override { return node_type; }
+            /// \brief Constructs an "any" reduction operation.
+            Any();
             /// \brief Constructs an "any" reduction operation.
             ///
             /// \param arg The tensor to be reduced.

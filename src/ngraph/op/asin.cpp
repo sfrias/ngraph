@@ -31,8 +31,14 @@
 using namespace std;
 using namespace ngraph;
 
+BasicNodeType<op::Asin> op::Asin::node_type("Asin");
+
+op::Asin::Asin()
+{
+}
+
 op::Asin::Asin(const shared_ptr<Node>& arg)
-    : UnaryElementwiseArithmetic("Asin", arg)
+    : UnaryElementwiseArithmetic(arg)
 {
     constructor_validate_and_infer_types();
 }

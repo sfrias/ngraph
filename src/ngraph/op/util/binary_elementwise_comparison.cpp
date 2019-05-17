@@ -20,7 +20,6 @@ using namespace std;
 using namespace ngraph;
 
 op::util::BinaryElementwiseComparison::BinaryElementwiseComparison()
-    : Op()
 {
 }
 

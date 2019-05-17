@@ -19,8 +19,14 @@
 using namespace std;
 using namespace ngraph;
 
+BasicNodeType<op::And> op::And::node_type("And");
+
+op::And::And()
+{
+}
+
 op::And::And(const shared_ptr<Node>& arg0, const shared_ptr<Node>& arg1)
-    : BinaryElementwiseLogical("And", arg0, arg1)
+    : BinaryElementwiseLogical(arg0, arg1)
 {
     constructor_validate_and_infer_types();
 }

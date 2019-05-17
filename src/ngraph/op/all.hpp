@@ -29,6 +29,10 @@ namespace ngraph
         class All : public util::LogicalReduction
         {
         public:
+            static BasicNodeType<op::All> node_type;
+            NodeType& get_node_type() const override { return node_type; }
+            /// \brief Constructs an "all" reduction operation.
+            All();
             /// \brief Constructs an "all" reduction operation.
             ///
             /// \param arg The tensor to be reduced.
