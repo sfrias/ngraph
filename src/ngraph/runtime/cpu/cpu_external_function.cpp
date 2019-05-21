@@ -732,11 +732,10 @@ using namespace ngraph::runtime;
         {
             if (!node->is_parameter() && !node->is_constant())
             {
-                for (const descriptor::Input& input : node->get_inputs())
+                for (auto& input : node->inputs())
                 {
-                    const descriptor::Output& output = input.get_output();
-                    shared_ptr<descriptor::Tensor> tv = output.get_tensor_ptr();
-                    tensor_index_map.insert({tv->get_name(), tensor_index++});
+                    auto& tv = input.get_tensor();
+                    tensor_index_map.insert({tv.get_name(), tensor_index++});
                 }
             }
         }
@@ -859,10 +858,9 @@ using namespace ngraph::runtime;
             vector<TensorViewWrapper> in;
             vector<string> node_input_names;
             vector<string> node_output_names;
-            for (const descriptor::Input& input : node->get_inputs())
+            for (auto& input : node->inputs())
             {
-                const descriptor::Output& output = input.get_output();
-                shared_ptr<descriptor::Tensor> tv = output.get_tensor_ptr();
+                auto tv = input.get_tensor_ptr();
                 in.push_back(TensorViewWrapper(tv, m_variable_name_map[tv->get_name()]));
                 node_input_names.emplace_back(tv->get_name());
             }
@@ -918,10 +916,10 @@ using namespace ngraph::runtime;
             if (!node->is_parameter() && !node->is_constant())
             {
                 writer << "if (ctx->first_iteration ";
-                for (const descriptor::Input& input : node->get_inputs())
+                for (auto& input : node->inputs())
                 {
-                    const descriptor::Output& output = input.get_output();
-                    shared_ptr<descriptor::Tensor> tv = output.get_tensor_ptr();
+                    const auto& output = input.get_source_output();
+                    shared_ptr<descriptor::Tensor> tv = input.get_tensor_ptr();
                     auto input_name = tv->get_name();
 
                     if (output.get_node()->is_parameter())
@@ -1403,10 +1401,9 @@ void runtime::cpu::CPU_ExternalFunction::build(ngraph::pass::PassConfig& pass_co
         }
         vector<TensorViewWrapper> in;
         vector<string> in_names;
-        for (const descriptor::Input& input : node->get_inputs())
+        for (auto& input : node->inputs())
         {
-            const descriptor::Output& output = input.get_output();
-            shared_ptr<descriptor::Tensor> tv = output.get_tensor_ptr();
+            shared_ptr<descriptor::Tensor> tv = input.get_tensor_ptr();
             in.push_back(TensorViewWrapper(tv, tv->get_name()));
             in_names.push_back(tv->get_name());
         }
@@ -1535,10 +1532,9 @@ void runtime::cpu::CPU_ExternalFunction::build(ngraph::pass::PassConfig& pass_co
             {
                 continue;
             }
-            for (const descriptor::Input& input : node->get_inputs())
+            for (auto& input : node->inputs())
             {
-                const descriptor::Output& output = input.get_output();
-                shared_ptr<descriptor::Tensor> tv = output.get_tensor_ptr();
+                shared_ptr<descriptor::Tensor> tv = input.get_tensor_ptr();
                 temp << &m_buffer_indices[tv->get_name()];
                 node_inputs.push_back(tv->get_name() + "(" + temp.str() + ")");
                 temp.str("");
@@ -1970,10 +1966,9 @@ string runtime::cpu::CPU_ExternalFunction::emit_op_as_function(const Node& node,
     vector<TensorViewWrapper> in;
     size_t arg_index = 0;
     set<string> arg_names;
-    for (const descriptor::Input& input : node.get_inputs())
+    for (auto& input : node.inputs())
     {
-        const descriptor::Output& output = input.get_output();
-        shared_ptr<descriptor::Tensor> tv = output.get_tensor_ptr();
+        shared_ptr<descriptor::Tensor> tv = input.get_tensor_ptr();
         TensorViewWrapper tvw{tv, "_arg" + to_string(arg_index)};
         if (arg_names.find(tvw.get_name()) == arg_names.end())
         {

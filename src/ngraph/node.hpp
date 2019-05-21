@@ -48,6 +48,7 @@ namespace ngraph
 
     class Node;
     using NodeVector = std::vector<std::shared_ptr<Node>>;
+    using OutputVector = std::vector<Output<Node>>;
 
     class Function;
 
@@ -141,6 +142,9 @@ namespace ngraph
 
         /// Sets/replaces the arguments with new arguments.
         void set_arguments(const NodeVector& arguments);
+        void set_arguments(const OutputVector& arguments);
+        void set_argument(const Output<Node>& argument, size_t position);
+
         /// Sets the number of outputs
         void set_output_size(size_t output_size);
 
@@ -218,11 +222,11 @@ namespace ngraph
         virtual std::ostream& write_short_description(std::ostream&) const;
         virtual std::ostream& write_long_description(std::ostream&) const;
 
-        std::deque<descriptor::Input>& get_inputs() NGRAPH_DEPRECATED("use inputs() instead")
+        std::vector<descriptor::Input>& get_inputs() NGRAPH_DEPRECATED("use inputs() instead")
         {
             return m_inputs;
         }
-        const std::deque<descriptor::Input>& get_inputs() const
+        const std::vector<descriptor::Input>& get_inputs() const
             NGRAPH_DEPRECATED("use inputs() instead")
         {
             return m_inputs;
@@ -391,7 +395,7 @@ namespace ngraph
         std::string m_unique_name;
         static std::atomic<size_t> m_next_instance_id;
         std::unordered_set<std::string> m_provenance_tags;
-        std::deque<descriptor::Input> m_inputs;
+        std::vector<descriptor::Input> m_inputs;
         std::deque<descriptor::Output> m_outputs;
         std::unordered_map<Node*, autodiff::Adjoints> m_adjoint_map;
         Placement m_placement = Placement::DEFAULT;
@@ -434,6 +438,11 @@ namespace ngraph
         descriptor::Tensor& get_tensor() const
         {
             return m_node->m_inputs.at(m_index).get_output().get_tensor();
+        }
+        /// \return A reference to the tensor descriptor for this input.
+        std::shared_ptr<descriptor::Tensor> get_tensor_ptr() const
+        {
+            return m_node->m_inputs.at(m_index).get_output().get_tensor_ptr();
         }
         /// \return true if this input is relevant to its node's output shapes; else false.
         bool get_is_relevant_to_shapes() const
@@ -515,6 +524,11 @@ namespace ngraph
         descriptor::Tensor& get_tensor() const
         {
             return m_node->m_outputs.at(m_index).get_tensor();
+        }
+        /// \return A reference to the tensor ptr for this output.
+        std::shared_ptr<descriptor::Tensor> get_tensor_ptr() const
+        {
+            return m_node->m_outputs.at(m_index).get_tensor_ptr();
         }
         /// \return The element type of the output referred to by this output handle.
         const element::Type& get_element_type() const

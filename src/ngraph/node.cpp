@@ -49,14 +49,26 @@ Node::Node(const NodeVector& arguments, size_t output_size)
 
 void Node::set_arguments(const NodeVector& arguments)
 {
-    // Add this node as a user of each argument.
-    size_t i = 0;
+    OutputVector outputs;
     for (auto arg : arguments)
     {
-        for (descriptor::Output& output : arg->m_outputs)
+        for (auto& output : arg->outputs())
         {
-            m_inputs.emplace_back(this, i++, output);
+            outputs.push_back(output);
         }
+    }
+    set_arguments(outputs);
+}
+
+void Node::set_arguments(const OutputVector& arguments)
+{
+    // Add this node as a user of each argument.
+    size_t i = 0;
+    for (auto& output : arguments)
+    {
+        auto output_node = output.get_node();
+        auto& output_descriptor = output_node->get_outputs().at(output.get_index());
+        m_inputs.emplace_back(this, i++, output_descriptor);
     }
 }
 
