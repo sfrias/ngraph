@@ -33,6 +33,13 @@ using namespace ngraph;
 
 atomic<size_t> Node::m_next_instance_id(0);
 
+Node::Node(const std::string& node_type, const NodeVector& arguments, size_t output_size)
+    : m_node_type(node_type)
+{
+    set_arguments(arguments);
+    set_output_size(output_size);
+}
+
 Node::Node(const NodeVector& arguments, size_t output_size)
     : Node()
 {
@@ -51,12 +58,6 @@ void Node::set_arguments(const NodeVector& arguments)
             m_inputs.emplace_back(this, i++, output);
         }
     }
-}
-
-Node::Node(const std::string& type_name, const NodeVector& arguments, size_t output_size)
-    : Node(arguments, output_size)
-{
-    m_description = type_name;
 }
 
 // While we are still doing validation and type inference in the constructor, this is true
@@ -136,6 +137,11 @@ bool Node::is_output() const
 bool Node::is_constant() const
 {
     return false;
+}
+
+const std::string& Node::description() const
+{
+    return m_node_type;
 }
 
 const std::string& Node::get_friendly_name() const
