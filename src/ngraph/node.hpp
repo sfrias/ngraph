@@ -222,11 +222,11 @@ namespace ngraph
         virtual std::ostream& write_short_description(std::ostream&) const;
         virtual std::ostream& write_long_description(std::ostream&) const;
 
-        std::vector<descriptor::Input>& get_inputs() NGRAPH_DEPRECATED("use inputs() instead")
+        std::deque<descriptor::Input>& get_inputs() NGRAPH_DEPRECATED("use inputs() instead")
         {
             return m_inputs;
         }
-        const std::vector<descriptor::Input>& get_inputs() const
+        const std::deque<descriptor::Input>& get_inputs() const
             NGRAPH_DEPRECATED("use inputs() instead")
         {
             return m_inputs;
@@ -395,7 +395,7 @@ namespace ngraph
         std::string m_unique_name;
         static std::atomic<size_t> m_next_instance_id;
         std::unordered_set<std::string> m_provenance_tags;
-        std::vector<descriptor::Input> m_inputs;
+        std::deque<descriptor::Input> m_inputs;
         std::deque<descriptor::Output> m_outputs;
         std::unordered_map<Node*, autodiff::Adjoints> m_adjoint_map;
         Placement m_placement = Placement::DEFAULT;

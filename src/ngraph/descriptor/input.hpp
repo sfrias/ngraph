@@ -39,10 +39,6 @@ namespace ngraph
             /// \param output The output that supplies a value for this input
             Input(Node* node, size_t index, Output& output);
 
-            /// \param node The node that owns this input
-            /// \param index The position of this this tensor in all input tensors
-            Input(Node* node, size_t index);
-
             /// \return the node that this is an input of
             std::shared_ptr<Node> get_node() const;
 
@@ -100,6 +96,9 @@ namespace ngraph
         private:
             bool m_is_relevant_to_shape;
             bool m_is_relevant_to_value;
+            Input(const Input&) = delete;
+            Input(Input&&) = delete;
+            Input& operator=(const Input&) = delete;
         };
     }
 }
