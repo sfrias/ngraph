@@ -72,6 +72,24 @@ void Node::set_arguments(const OutputVector& arguments)
     }
 }
 
+void Node::set_argument(const Output<Node>& argument, size_t position)
+{
+    auto output_node = argument.get_node();
+    auto& output_descriptor = output_node->get_outputs().at(argument.get_index());
+    if (position < m_inputs.size())
+    {
+        m_inputs.at(position).replace_output(output_descriptor);
+    }
+    else
+    {
+        while (m_inputs.size() < position)
+        {
+            m_inputs.emplace_back(this, m_inputs.size());
+        }
+        m_inputs.emplace_back(this, position, output_descriptor);
+    }
+}
+
 // While we are still doing validation and type inference in the constructor, this is true
 // The #define can be commented out to debug doing validation/inference after construction.
 // When that is working, these two functions will be removed.
