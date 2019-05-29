@@ -48,12 +48,22 @@ void op::Tile::validate_and_infer_types()
 
     if (arg_rank.is_static())
     {
-        // Repeats shapes should be of form {arg_rank} or dynamic
-        NODE_VALIDATION_CHECK(this,
-                              repeats_shape.compatible(PartialShape{arg_rank}),
-                              "Arg and padding below ranks mismatch");
-
-        output_rank = arg_rank;
+        if (size_t(arg_rank) == 0)
+        {
+            // Repeats shapes should be of form {1} or dynamic
+            NODE_VALIDATION_CHECK(this,
+                                  repeats_shape.compatible(PartialShape{1}),
+                                  "Shape of repeats should be {1} or dynamic for scalar Arg");
+            output_rank = repeats_rank;
+        }
+        else
+        {
+            // Repeats shapes should be of form {arg_rank} or dynamic
+            NODE_VALIDATION_CHECK(this,
+                                  repeats_shape.compatible(PartialShape{arg_rank}),
+                                  "Arg and repeats ranks mismatch");
+            output_rank = arg_rank;
+        }
     }
 
     auto out_shape = PartialShape::dynamic(output_rank);
@@ -65,10 +75,17 @@ void op::Tile::validate_and_infer_types()
             auto shape = arg_shape.to_shape();
             auto repeats_val = const_repeats->get_vector<int64_t>();
 
-            Shape output_shape(shape.size());
-            for (size_t i = 0; i < shape.size(); i++)
+            Shape output_shape(shape.size() == 0 ? 1 : shape.size());
+            if (shape.size() == 0)
             {
-                output_shape[i] = shape[i] * repeats_val[i];
+                output_shape[0] = repeats_val[0];
+            }
+            else
+            {
+                for (size_t i = 0; i < shape.size(); i++)
+                {
+                    output_shape[i] = shape[i] * repeats_val[i];
+                }
             }
             set_output_type(0, arg_et, output_shape);
         }
